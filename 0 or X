@@ -1,0 +1,53 @@
+number = list(range(1, 10))
+combination_of_wins = [(1, 2, 3), (4, 5, 6), (7, 8, 9), (1, 4, 7), (2, 5, 8), (3, 6, 9), (1, 5, 9), (3, 5, 7)]
+
+
+def game_field():
+    for i in range(3):
+        print(number[0 + i * 3], number[1 + i * 3], number[2 + i * 3])
+
+
+def input_value(value):
+    while True:
+        number_position = input('Введите куда поставить: ' + value + ' ')
+        if not (number_position in '1, 2, 3, 4, 5, 6, 7, 8, 9'):
+            print('Нет такой позиции')
+            continue
+        number_position = int(number_position)
+        if str(number[number_position - 1]) in 'X0':
+            print('Занято. Повторите ввод.')
+            continue
+        number[number_position - 1] = value
+        break
+
+
+def Win():
+    for symbol in combination_of_wins:
+        if (number[symbol[0] - 1] == number[symbol[1] - 1] == number[symbol[2] - 1]):
+            return number[symbol[1] - 1]
+    else:
+        return False
+
+
+def main():
+    counter = 0
+    while True:
+        game_field()
+        if counter % 2 == 0:
+            input_value('X')
+        else:
+            input_value('0')
+        if counter > 3:
+            winner = Win()
+            if winner:
+                game_field()
+                print(winner, 'Выиграл!')
+                break
+        counter += 1
+        if counter > 8:
+            game_field()
+            print('Ничья!')
+            break
+
+
+main()
